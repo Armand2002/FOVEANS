@@ -25,11 +25,11 @@ export default function Prodotti() {
             <p className={styles.pcDesc}>{t('p1.desc')}</p>
             <div className={styles.pcFoot}>
               <a
-                href="https://aria-op.io"
+                href="https://ariaop.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="arr r"
-                aria-label="Vai su aria-op.io (apre in una nuova scheda)"
+                aria-label="Vai su ariaop.ai (apre in una nuova scheda)"
               >
                 <span>{t('p1.lk')}</span>
                 <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">

@@ -23,7 +23,7 @@ export default function Footer() {
           <div className={styles.fcol}>
             <h5>{t('ft.h1')}</h5>
             <ul>
-              <li><a href="https://aria-op.io" target="_blank" rel="noopener noreferrer">ARIA-OP ↗</a></li>
+              <li><a href="https://ariaop.ai" target="_blank" rel="noopener noreferrer">ARIA-OP ↗</a></li>
               <li><a href="#prodotti">{t('ft.p2')}</a></li>
               <li><a href="#prodotti">{t('ft.p3')}</a></li>
             </ul>
@@ -52,7 +52,11 @@ export default function Footer() {
         </div>
 
         <div className={styles.ftBot}>
-          <span>© 2026 Foveans S.r.l. — Foggia, Puglia — foveans@pec.it</span>
+          <div className={styles.ftLegal}>
+            <span>© 2026 Foveans S.r.l. · P.IVA 04588150716 · REA FG-340217</span>
+            <span>Sede legale: Viale Leone XIII 247, 71121 Foggia (FG) · <a href="mailto:foveans@pec.it">foveans@pec.it</a></span>
+            <span>Startup Innovativa iscritta nella sezione speciale del Registro delle Imprese dal 25/02/2026</span>
+          </div>
           <div className={styles.ftl}>
             <a href="#" aria-label="LinkedIn">LinkedIn</a>
             <a href="#" aria-label="GitHub">GitHub</a>

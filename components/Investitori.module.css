@@ -29,6 +29,27 @@
   margin-bottom: 4px;
 }
 
+.siBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--fm);
+  letter-spacing: .04em;
+  color: var(--d2);
+  background: rgba(255,255,255,.03);
+}
+.siDot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+}
+
 .invSep { height: 48px; width: 1px; background: var(--ln2); }
 
 .invCta { display: flex; flex-direction: column; gap: 10px; min-width: 160px; }

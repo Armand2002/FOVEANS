@@ -14,6 +14,11 @@ export default function Investitori() {
         <h2 className="ht" id="inv-heading">{t('s5.h')}</h2>
         <p className="hb">{t('s5.p')}</p>
 
+        <div className={styles.siBadge}>
+          <span className={styles.siDot} aria-hidden="true" />
+          {t('inv.si')}
+        </div>
+
         <ScrollReveal className={styles.invWrap}>
           <div className={styles.invStat}>
             <div className={styles.n}>$73<span className={styles.r}>B</span></div>

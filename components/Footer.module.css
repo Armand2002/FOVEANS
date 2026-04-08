@@ -59,12 +59,23 @@
 .ftBot {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 12px;
   color: var(--d1);
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
+
+.ftLegal {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--d1);
+  line-height: 1.5;
+}
+.ftLegal a { color: var(--d1); text-decoration: underline; }
+.ftLegal a:hover { color: var(--red3); }
 
 .ftl { display: flex; gap: 16px; }
 .ftl a { color: var(--d1); transition: color .15s; }
