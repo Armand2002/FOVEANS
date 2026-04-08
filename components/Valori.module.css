@@ -1,0 +1,52 @@
+.valGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.vc {
+  background: var(--ink2);
+  border: 1px solid var(--ln2);
+  border-radius: 12px;
+  padding: clamp(24px, 3vw, 40px);
+  transition: border-color .2s, background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.vc:hover { border-color: rgba(204,39,25,.15); background: var(--ink3); }
+
+.vcN {
+  font-family: var(--fh);
+  font-weight: 800;
+  font-size: 60px;
+  opacity: .03;
+  line-height: 1;
+  position: absolute;
+  top: 16px; right: 20px;
+  letter-spacing: -.05em;
+  user-select: none;
+  pointer-events: none;
+}
+
+.vcIco {
+  width: 36px; height: 36px;
+  background: rgba(204,39,25,.06);
+  border: 1px solid var(--ln2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.vc h3 {
+  font-family: var(--fh);
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+}
+.vc p { font-size: 13px; color: var(--d2); line-height: 1.76; }
+
+@media (max-width: 768px) { .valGrid { grid-template-columns: 1fr; } }

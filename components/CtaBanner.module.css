@@ -1,0 +1,69 @@
+.ctaWrap {
+  background: var(--red);
+  padding: clamp(72px, 9vw, 108px) clamp(20px, 5%, 80px);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.ctaWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.06) 0%, transparent 50%);
+}
+
+.ctaBg {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--fh);
+  font-size: clamp(80px, 20vw, 240px);
+  font-weight: 800;
+  color: rgba(255,255,255,.05);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -.05em;
+  line-height: 1;
+}
+
+.ctaWrap h2 {
+  font-family: var(--fh);
+  font-size: clamp(28px, 4.5vw, 54px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.035em;
+  margin-bottom: 12px;
+  line-height: 1.07;
+  position: relative;
+  z-index: 1;
+  white-space: pre-line;
+}
+.ctaWrap p {
+  font-size: clamp(14px, 1.4vw, 16px);
+  color: rgba(255,255,255,.7);
+  margin-bottom: 30px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.btnInv {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--ink);
+  color: var(--red3);
+  padding: 13px 26px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  transition: background .15s;
+  position: relative;
+  z-index: 1;
+}
+.btnInv:hover { background: var(--ink2); }

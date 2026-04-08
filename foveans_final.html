@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foveans — Il sistema operativo per gli agenti AI enterprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:  #0B0606;
+  --ink2: #130909;
+  --ink3: #1A0D0D;
+  --red:  #CC2719;
+  --red2: #E03428;
+  --red3: #F06860;
+  --cr:   #F7F2F1;
+  --d1:   #4A2E2C;
+  --d2:   #8C6866;
+  --d3:   #BFA5A3;
+  --ln:   #1C0E0E;
+  --ln2:  #2A1414;
+  --fh:   'Syne', sans-serif;
+  --fb:   'DM Sans', sans-serif;
+  --fm:   'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cr);font-family:var(--fb);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--fb);cursor:pointer}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5%,80px);height:60px;background:rgba(11,6,6,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--ln)}
+.nlogo{display:flex;align-items:center;gap:9px;font-family:var(--fh);font-weight:700;font-size:16px;letter-spacing:-.025em;flex-shrink:0}
+.nm{width:26px;height:26px;background:var(--red);border-radius:5px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4.5px;flex-shrink:0}
+.nm span{background:rgba(255,255,255,.9);border-radius:1.5px}
+.nm span:nth-child(2){opacity:.5}
+.nm span:nth-child(3){opacity:.5}
+.nm span:nth-child(4){opacity:.2}
+.nls{display:flex;gap:24px;list-style:none}
+.nls a{font-size:13px;color:var(--d2);transition:color .15s}
+.nls a:hover{color:var(--cr)}
+.ne{display:flex;align-items:center;gap:8px}
+.lsw{display:flex;background:var(--ink3);border:1px solid var(--ln2);border-radius:5px;overflow:hidden}
+.lb{padding:5px 10px;font-size:11px;font-family:var(--fm);letter-spacing:.05em;border:none;background:transparent;color:var(--d2);transition:all .15s}
+.lb.on{background:var(--red);color:#fff}
+.ncta{padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;transition:background .15s;white-space:nowrap}
+.ncta:hover{background:var(--red2)}
+.burg{display:none;flex-direction:column;gap:4px;border:none;background:transparent;padding:4px}
+.burg span{width:18px;height:1.5px;background:var(--d2);border-radius:2px;transition:all .25s;display:block}
+.burg.x span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.burg.x span:nth-child(2){opacity:0;width:0}
+.burg.x span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mob{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(11,6,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--ln);z-index:99;flex-direction:column}
+.mob.open{display:flex}
+.mob a{padding:13px clamp(20px,5%,80px);font-size:15px;color:var(--d2);border-bottom:1px solid var(--ln);transition:color .15s}
+.mob a:hover{color:var(--cr)}
+.mob .mct{margin:14px clamp(20px,5%,80px);display:block;background:var(--red);color:#fff;padding:13px;border-radius:8px;text-align:center;font-weight:600;font-size:15px;border:none}
+
+/* LAYOUT */
+.W{max-width:1200px;margin:0 auto;padding:0 clamp(20px,5%,80px)}
+.sec{padding:clamp(72px,8vw,108px) 0;position:relative;z-index:1}
+.hr{height:1px;background:var(--ln)}
+.ey{font-family:var(--fm);font-size:10px;color:var(--red3);letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:12px}
+.ht{font-family:var(--fh);font-size:clamp(28px,4vw,50px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+.hb{font-size:clamp(14px,1.4vw,16px);color:var(--d2);line-height:1.8;max-width:520px}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:up .6s ease forwards}
+.d1{animation-delay:.08s;opacity:0}.d2{animation-delay:.2s;opacity:0}
+.d3{animation-delay:.34s;opacity:0}.d4{animation-delay:.48s;opacity:0}
+.rv{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+.btn-p{display:inline-flex;align-items:center;gap:7px;background:var(--red);color:#fff;padding:12px 22px;border-radius:8px;font-weight:600;font-size:14px;border:none;transition:all .15s;white-space:nowrap}
+.btn-p:hover{background:var(--red2);transform:translateY(-1px)}
+.btn-s{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--d2);padding:12px 18px;border-radius:8px;border:1px solid var(--ln2);font-size:14px;transition:all .15s;white-space:nowrap}
+.btn-s:hover{border-color:var(--d1);color:var(--cr)}
+.arr{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;transition:gap .15s}
+.arr:hover{gap:9px}
+.arr.r{color:var(--red3)}
+.arr.d{color:var(--d2)}
+
+/* ══ HERO ══ */
+.hero{padding:clamp(88px,11vw,140px) clamp(20px,5%,80px) clamp(64px,7vw,96px);max-width:1200px;margin:0 auto}
+.h-kicker{display:inline-flex;align-items:center;gap:7px;background:rgba(204,39,25,.07);border:1px solid rgba(204,39,25,.15);color:var(--red3);font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:100px;margin-bottom:32px;width:fit-content}
+.hk-d{width:5px;height:5px;background:var(--red);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-family:var(--fh);font-size:clamp(46px,7vw,90px);font-weight:800;letter-spacing:-.04em;line-height:.97;margin-bottom:28px;max-width:820px}
+.hero h1 .r{color:var(--red)}
+.hero h1 .g{color:var(--d2);font-weight:300}
+.hero-lead{font-size:clamp(15px,1.6vw,18px);color:var(--d2);line-height:1.78;max-width:580px;margin-bottom:40px}
+.hero-acts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:64px}
+.h-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--ln);border:1px solid var(--ln);border-radius:12px;overflow:hidden;max-width:680px}
+.hp{background:var(--ink2);padding:22px 20px;transition:background .15s}
+.hp:hover{background:var(--ink3)}
+.hp-n{font-family:var(--fh);font-size:clamp(22px,2.8vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:5px}
+.hp-n .r{color:var(--red)}
+.hp-l{font-size:12px;color:var(--d2);line-height:1.5}
+
+/* ══ STORIA ══ */
+.storia-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,88px);align-items:start;margin-top:56px}
+.storia-left .pull{font-family:var(--fh);font-size:clamp(20px,2.6vw,30px);font-weight:700;letter-spacing:-.025em;line-height:1.28;margin-bottom:24px}
+.storia-left .pull em{color:var(--red);font-style:normal}
+.storia-left p{font-size:14px;color:var(--d2);line-height:1.82;margin-bottom:14px}
+.storia-right{display:flex;flex-direction:column;gap:1px;background:var(--ln);border:1px solid var(--ln);border-radius:12px;overflow:hidden}
+.sc{background:var(--ink2);padding:24px;transition:background .15s;position:relative;overflow:hidden}
+.sc:hover{background:var(--ink3)}
+.sc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red);opacity:.4}
+.sc-n{font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.sc-t{font-size:13px;color:var(--d2);line-height:1.72}
+.sc-ghost{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:var(--fh);font-size:56px;font-weight:800;opacity:.025;letter-spacing:-.05em;user-select:none;pointer-events:none}
+
+/* ══ PRODOTTI ══ */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px}
+.pc{background:var(--ink2);border:1px solid var(--ln2);border-radius:12px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.pc.live::before{background:var(--red)}
+.pc.soon::before{background:var(--d2)}
+.pc.next::before{background:var(--ln2)}
+.pc.live:hover{border-color:rgba(204,39,25,.2);background:var(--ink3)}
+.pc.soon:hover{border-color:rgba(140,104,102,.2);background:var(--ink3)}
+.pc.next{opacity:.55}
+.pc-st{display:inline-flex;align-items:center;gap:5px;font-family:var(--fm);font-size:10px;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:100px;margin-bottom:20px;width:fit-content}
+.pc-st.live{background:rgba(204,39,25,.08);color:var(--red3);border:1px solid rgba(204,39,25,.16)}
+.pc-st.live::before{content:'';width:4px;height:4px;background:var(--red);border-radius:50%;box-shadow:0 0 4px rgba(204,39,25,.5)}
+.pc-st.soon{background:rgba(140,104,102,.08);color:var(--d2);border:1px solid rgba(140,104,102,.15)}
+.pc-st.next{background:transparent;color:var(--d1);border:1px solid var(--ln2)}
+.pc-name{font-family:var(--fh);font-size:clamp(22px,2.5vw,30px);font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+.pc-type{font-family:var(--fm);font-size:11px;color:var(--d1);letter-spacing:.04em;margin-bottom:16px}
+.pc-desc{font-size:13px;color:var(--d2);line-height:1.76;flex:1;margin-bottom:20px}
+.pc-foot{margin-top:auto;padding-top:16px;border-top:1px solid var(--ln)}
+.pc-eta{font-family:var(--fm);font-size:11px;color:var(--d1);letter-spacing:.05em}
+
+/* ══ VALORI ══ */
+.val-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:48px}
+.vc{background:var(--ink2);border:1px solid var(--ln2);border-radius:12px;padding:clamp(24px,3vw,40px);transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.vc:hover{border-color:rgba(204,39,25,.15);background:var(--ink3)}
+.vc-n{font-family:var(--fh);font-weight:800;font-size:60px;opacity:.03;line-height:1;position:absolute;top:16px;right:20px;letter-spacing:-.05em;user-select:none;pointer-events:none}
+.vc-ico{width:36px;height:36px;background:rgba(204,39,25,.06);border:1px solid var(--ln2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.vc h3{font-family:var(--fh);font-size:clamp(16px,1.6vw,20px);font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.vc p{font-size:13px;color:var(--d2);line-height:1.76}
+
+/* ══ TEAM ══ */
+.team-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,80px);align-items:start;margin-top:56px}
+.team-intro h3{font-family:var(--fh);font-size:clamp(18px,2vw,24px);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:14px}
+.team-intro p{font-size:14px;color:var(--d2);line-height:1.8;margin-bottom:14px}
+.tc{background:var(--ink2);border:1px solid var(--ln2);border-radius:12px;overflow:hidden;transition:border-color .2s;margin-bottom:12px}
+.tc:last-child{margin-bottom:0}
+.tc:hover{border-color:rgba(204,39,25,.16)}
+.tc-in{display:grid;grid-template-columns:60px 1fr}
+.tc-av{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--ln);font-family:var(--fh);font-weight:700;font-size:14px}
+.tc-av.r{background:rgba(204,39,25,.07);color:var(--red3)}
+.tc-av.d{background:rgba(140,104,102,.07);color:var(--d2)}
+.tc-b{padding:20px 22px}
+.tc-nm{font-family:var(--fh);font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:1px}
+.tc-rl{font-family:var(--fm);font-size:10px;letter-spacing:.06em;margin-bottom:10px}
+.tc-rl.r{color:var(--red3)}
+.tc-rl.d{color:var(--d2)}
+.tc-bio{font-size:13px;color:var(--d2);line-height:1.72;margin-bottom:12px}
+.tc-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tg{background:var(--ink3);border:1px solid var(--ln2);padding:3px 8px;border-radius:4px;font-family:var(--fm);font-size:10px;color:var(--d1);letter-spacing:.03em}
+
+/* ══ INVESTITORI ══ */
+.inv-wrap{background:var(--ink2);border:1px solid var(--ln2);border-radius:14px;padding:clamp(28px,4vw,48px);margin-top:48px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:clamp(24px,4vw,48px);align-items:center}
+.inv-stat .n{font-family:var(--fh);font-size:clamp(28px,3.5vw,44px);font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:4px}
+.inv-stat .n .r{color:var(--red)}
+.inv-stat .l{font-size:12px;color:var(--d2);line-height:1.5}
+.inv-sep{height:48px;width:1px;background:var(--ln2)}
+.inv-cta{display:flex;flex-direction:column;gap:10px;min-width:160px}
+
+/* ══ LAVORA CON NOI ══ */
+.jobs-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start;margin-top:48px}
+.jobs-left h3{font-family:var(--fh);font-size:clamp(20px,2.5vw,30px);font-weight:700;letter-spacing:-.025em;line-height:1.22;margin-bottom:16px}
+.jobs-left p{font-size:14px;color:var(--d2);line-height:1.8;margin-bottom:14px}
+.jobs-pills{display:flex;flex-direction:column;gap:10px}
+.jp{background:var(--ink2);border:1px solid var(--ln2);border-radius:10px;padding:18px 20px;transition:border-color .2s}
+.jp:hover{border-color:rgba(204,39,25,.16)}
+.jp h4{font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:-.015em;margin-bottom:6px}
+.jp p{font-size:13px;color:var(--d2);line-height:1.68}
+.jp-tag{display:inline-block;font-family:var(--fm);font-size:10px;color:var(--red3);background:rgba(204,39,25,.07);padding:3px 8px;border-radius:4px;margin-top:8px;letter-spacing:.05em}
+
+/* ══ BLOG ══ */
+.blog-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;flex-wrap:wrap;gap:10px}
+.bg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bc{background:var(--ink2);border:1px solid var(--ln2);border-radius:12px;overflow:hidden;transition:border-color .2s,transform .18s}
+.bc:hover{border-color:rgba(204,39,25,.16);transform:translateY(-3px)}
+.bth{height:152px;background:var(--ink3);border-bottom:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.bth-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.04}
+.bth-ico{position:relative;z-index:1}
+.bb{padding:18px 20px}
+.bcat{font-family:var(--fm);font-size:10px;color:var(--red3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.bc h3{font-family:var(--fh);font-size:clamp(13px,1.3vw,15px);font-weight:700;letter-spacing:-.02em;line-height:1.35;margin-bottom:7px}
+.bc p{font-size:12px;color:var(--d2);line-height:1.68;margin-bottom:10px}
+.bm{font-family:var(--fm);font-size:10px;color:var(--d1)}
+
+/* ══ CTA ══ */
+.cta-wrap{background:var(--red);padding:clamp(72px,9vw,108px) clamp(20px,5%,80px);text-align:center;position:relative;z-index:1;overflow:hidden}
+.cta-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.06) 0%,transparent 50%)}
+.cta-bg{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:var(--fh);font-size:clamp(80px,20vw,240px);font-weight:800;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none;letter-spacing:-.05em;line-height:1}
+.cta-wrap h2{font-family:var(--fh);font-size:clamp(28px,4.5vw,54px);font-weight:800;color:#fff;letter-spacing:-.035em;margin-bottom:12px;line-height:1.07;position:relative;z-index:1}
+.cta-wrap p{font-size:clamp(14px,1.4vw,16px);color:rgba(255,255,255,.7);margin-bottom:30px;max-width:380px;margin-left:auto;margin-right:auto;position:relative;z-index:1}
+.btn-inv{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--red3);padding:13px 26px;border-radius:8px;font-weight:700;font-size:14px;border:none;transition:background .15s;position:relative;z-index:1}
+.btn-inv:hover{background:var(--ink2)}
+
+/* ══ CONTACT ══ */
+.ct-wrap{background:var(--ink2);border-top:1px solid var(--ln)}
+.ct-in{max-width:1200px;margin:0 auto;padding:clamp(64px,8vw,96px) clamp(20px,5%,80px);display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,80px);align-items:start}
+.ct-info{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+.ci{display:flex;gap:10px;align-items:flex-start}
+.ci-ic{width:30px;height:30px;flex-shrink:0;background:rgba(204,39,25,.06);border:1px solid var(--ln2);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.ci-lb{font-size:11px;color:var(--d1);margin-bottom:1px;font-family:var(--fm);letter-spacing:.05em}
+.ci-vl{font-size:13px;color:var(--d3)}
+.ci-vl.r{color:var(--red3)}
+.cform{display:flex;flex-direction:column;gap:11px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:12px;color:var(--d2);font-weight:500;letter-spacing:.02em}
+.fg input,.fg select,.fg textarea{background:var(--ink3);border:1px solid var(--ln2);border-radius:8px;padding:10px 12px;color:var(--cr);font-size:13px;font-family:var(--fb);outline:none;transition:border-color .15s;resize:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(204,39,25,.32)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--d1)}
+.fg select option{background:var(--ink3)}
+.bsend{align-self:flex-start;background:var(--red);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;transition:background .15s;margin-top:2px}
+.bsend:hover{background:var(--red2)}
+.cnote{font-size:11px;color:var(--d1);margin-top:2px}
+.cnote a{color:var(--red3)}
+
+/* ══ FOOTER ══ */
+footer{background:var(--ink);border-top:1px solid var(--ln);padding:clamp(40px,5vw,56px) clamp(20px,5%,80px) clamp(20px,3vw,32px);position:relative;z-index:1}
+.ft{max-width:1200px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(20px,4vw,48px);padding-bottom:32px;border-bottom:1px solid var(--ln);margin-bottom:20px}
+.fb p{font-size:13px;color:var(--d2);line-height:1.7;margin-top:11px;max-width:230px}
+.fcol h5{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--d1);margin-bottom:14px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.fcol ul a{font-size:13px;color:var(--d2);transition:color .15s}
+.fcol ul a:hover{color:var(--red3)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--d1);flex-wrap:wrap;gap:8px}
+.ftl{display:flex;gap:16px}
+.ftl a{color:var(--d1);transition:color .15s}
+.ftl a:hover{color:var(--red3)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .inv-wrap{grid-template-columns:1fr 1fr;gap:24px}
+  .inv-sep{display:none}
+  .ft-top{grid-template-columns:1fr 1fr}
+  .prod-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nls,.ncta{display:none}
+  .burg{display:flex}
+  .storia-wrap,.team-layout,.jobs-grid,.ct-in{grid-template-columns:1fr}
+  .prod-grid,.val-grid,.bg{grid-template-columns:1fr}
+  .inv-wrap{grid-template-columns:1fr 1fr}
+  .h-pills{grid-template-columns:1fr}
+  .hero-acts{flex-direction:column;align-items:stretch}
+  .btn-p,.btn-s{justify-content:center}
+}
+@media(max-width:520px){
+  .inv-wrap{grid-template-columns:1fr}
+  .ft-top{grid-template-columns:1fr}
+  .fr2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nlogo">
+    <div class="nm"><span></span><span></span><span></span><span></span></div>
+    Foveans
+  </a>
+  <ul class="nls">
+    <li><a href="#storia" data-t="n.s">Storia</a></li>
+    <li><a href="#prodotti" data-t="n.p">Prodotti</a></li>
+    <li><a href="#valori" data-t="n.v">Valori</a></li>
+    <li><a href="#team" data-t="n.t">Team</a></li>
+    <li><a href="#investitori" data-t="n.i">Investitori</a></li>
+    <li><a href="#lavora" data-t="n.l">Carriere</a></li>
+    <li><a href="#contatti" data-t="n.c">Contatti</a></li>
+  </ul>
+  <div class="ne">
+    <div class="lsw">
+      <button class="lb on" onclick="setLang('it')">IT</button>
+      <button class="lb" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="ncta" onclick="s2('contatti')" data-t="n.cta">Contattaci</button>
+    <button class="burg" id="burg" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob" id="mob">
+  <a href="#storia" onclick="toggleMob()" data-t="n.s">Storia</a>
+  <a href="#prodotti" onclick="toggleMob()" data-t="n.p">Prodotti</a>
+  <a href="#valori" onclick="toggleMob()" data-t="n.v">Valori</a>
+  <a href="#team" onclick="toggleMob()" data-t="n.t">Team</a>
+  <a href="#investitori" onclick="toggleMob()" data-t="n.i">Investitori</a>
+  <a href="#lavora" onclick="toggleMob()" data-t="n.l">Carriere</a>
+  <a href="#contatti" onclick="toggleMob()" data-t="n.c">Contatti</a>
+  <button class="mct" onclick="toggleMob();s2('contatti')" data-t="n.cta">Contattaci</button>
+</div>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="h-kicker fu">
+      <span class="hk-d"></span>
+      <span data-t="h.k">Foveans S.r.l. — Foggia, Italia — Founded 2026</span>
+    </div>
+    <h1 class="fu d1">
+      <span data-t="h.a">Il sistema operativo</span><br>
+      <span class="r" data-t="h.b">per gli agenti AI</span><br>
+      <span class="g" data-t="h.c">enterprise.</span>
+    </h1>
+    <p class="hero-lead fu d2" data-t="h.lead">
+      Foveans costruisce l'infrastruttura che manca. Piattaforme software che portano gli agenti AI dalla demo alla produzione — affidabili, conformi alle normative europee, progettate per durare decenni.
+    </p>
+    <div class="hero-acts fu d3">
+      <button class="btn-p" onclick="s2('prodotti')">
+        <span data-t="h.b1">Scopri i prodotti</span>
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn-s" onclick="s2('storia')">
+        <span data-t="h.b2">La nostra storia</span>
+      </button>
+    </div>
+    <div class="h-pills fu d4">
+      <div class="hp">
+        <div class="hp-n">2026</div>
+        <div class="hp-l" data-t="hp.1">Fondati a Foggia<br>Sud Italia</div>
+      </div>
+      <div class="hp">
+        <div class="hp-n"><span class="r">EU</span></div>
+        <div class="hp-l" data-t="hp.2">AI Act compliance<br>by design</div>
+      </div>
+      <div class="hp">
+        <div class="hp-n">3<span class="r">+</span></div>
+        <div class="hp-l" data-t="hp.3">Prodotti su<br>una piattaforma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- STORIA -->
+<section class="sec" id="storia">
+  <div class="W">
+    <span class="ey" data-t="s1.ey">// 01 — Chi siamo</span>
+    <div class="storia-wrap rv">
+      <div class="storia-left">
+        <div class="pull" data-t="s1.pull">
+          Nasce dalla testardaggine di un ragazzo di Foggia che non ha aspettato il momento giusto — e non ha mai smesso di pensare <em>fuori dagli schemi</em>.
+        </div>
+        <p data-t="s1.p1">Foveans non è partita da un garage della Silicon Valley. È partita da hackathon vinti, paper accademici pubblicati, feasibility analysis con grandi aziende — tutto costruito dal Sud, con le risorse disponibili e l'ambizione di chi non ha niente da perdere.</p>
+        <p data-t="s1.p2">La visione è semplice e ambiziosa insieme: diventare per gli agenti AI ciò che Cisco è stato per le reti. Non il prodotto che gira sopra l'infrastruttura — l'infrastruttura stessa. Il sistema operativo invisibile su cui tutto gira.</p>
+        <p data-t="s1.p3">Foveans vuole essere un laboratorio di innovazione italiana. Un posto che dimostra che si può costruire qualcosa di globale partendo da Foggia — e che il Sud non è un limite, è un vantaggio competitivo.</p>
+      </div>
+      <div class="storia-right">
+        <div class="sc">
+          <div class="sc-ghost">01</div>
+          <div class="sc-n" data-t="s1.c1n">2024 — I primi segnali</div>
+          <div class="sc-t" data-t="s1.c1t">Hackathon, paper su pianificazione urbana AI-driven, analisi di fattibilità su richiesta di aziende con miliardi di fatturato. Il mercato inizia a riconoscere quello che stavamo costruendo.</div>
+        </div>
+        <div class="sc">
+          <div class="sc-ghost">02</div>
+          <div class="sc-n" data-t="s1.c2n">2025 — ARIA-OP prende forma</div>
+          <div class="sc-t" data-t="s1.c2t">Dieci mesi di sviluppo intenso. 1.726 test automatici. Zero bug critici. Un protocollo proprietario, un'architettura self-healing, un vault cifrato AES-256. Da zero a production-ready.</div>
+        </div>
+        <div class="sc">
+          <div class="sc-ghost">03</div>
+          <div class="sc-n" data-t="s1.c3n">Febbraio 2026 — Foveans S.r.l.</div>
+          <div class="sc-t" data-t="s1.c3t">L'azienda viene costituita a Foggia. Startup Innovativa. Il prodotto è pronto, il mercato è pronto, l'EU AI Act crea la domanda. È il momento giusto.</div>
+        </div>
+        <div class="sc">
+          <div class="sc-ghost">→</div>
+          <div class="sc-n" data-t="s1.c4n">Adesso — Scala europea</div>
+          <div class="sc-t" data-t="s1.c4t">ARIA-OP in produzione. QARIA in sviluppo. Pipeline commerciale aperta. Seed round in corso. L'obiettivo è diventare lo standard europeo per la governance degli agenti AI.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- PRODOTTI -->
+<section class="sec" id="prodotti">
+  <div class="W">
+    <span class="ey" data-t="s2.ey">// 02 — Prodotti</span>
+    <h2 class="ht rv" data-t="s2.h">Una suite. Una piattaforma.</h2>
+    <p class="hb rv" data-t="s2.p">Ogni prodotto Foveans risolve un problema preciso. Ognuno ha la sua pagina dedicata — qui trovi solo il quadro d'insieme.</p>
+    <div class="prod-grid rv">
+
+      <div class="pc live">
+        <span class="pc-st live" data-t="p1.st">In produzione</span>
+        <div class="pc-name">ARIA-OP</div>
+        <div class="pc-type" data-t="p1.type">AI Agent Orchestration Platform</div>
+        <p class="pc-desc" data-t="p1.desc">La piattaforma per orchestrare, monitorare e governare agenti AI in produzione. Visual workflow builder no-code, self-healing L0→L3, EU AI Act compliance nativa. Il primo prodotto Foveans — production-ready.</p>
+        <div class="pc-foot">
+          <a href="https://aria-op.io" target="_blank" class="arr r">
+            <span data-t="p1.lk">Vai su aria-op.io</span>
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M10 3h3v3M13 3L7 9M4 4H2v10h10v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="pc soon">
+        <span class="pc-st soon" data-t="p2.st">In sviluppo</span>
+        <div class="pc-name">QARIA</div>
+        <div class="pc-type" data-t="p2.type">Quantum AI Orchestration</div>
+        <p class="pc-desc" data-t="p2.desc">L'estensione quantistica di ARIA-OP. Orchestrazione di agenti AI su hardware quantistico europeo — costruita per l'ecosistema EU, in integrazione con i principali centri di calcolo quantistico italiani.</p>
+        <div class="pc-foot">
+          <span class="pc-eta" data-t="p2.eta">Beta · Q4 2026</span>
+        </div>
+      </div>
+
+      <div class="pc next">
+        <span class="pc-st next" data-t="p3.st">Roadmap 2027</span>
+        <div class="pc-name" data-t="p3.name">Foveans Suite</div>
+        <div class="pc-type" data-t="p3.type">Enterprise AI Governance</div>
+        <p class="pc-desc" data-t="p3.desc">La suite completa per la governance AI enterprise. Compliance audit tools, agent marketplace, enterprise identity layer. I dettagli verranno comunicati nelle prossime release.</p>
+        <div class="pc-foot">
+          <span class="pc-eta" style="opacity:.5">2027+</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- VALORI -->
+<section class="sec" id="valori">
+  <div class="W">
+    <span class="ey" data-t="s3.ey">// 03 — Valori</span>
+    <h2 class="ht rv" data-t="s3.h">Perché costruiamo così.</h2>
+    <div class="val-grid">
+
+      <div class="vc rv">
+        <div class="vc-n">01</div>
+        <div class="vc-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h12M4 13V7l4-5 4 5v6" stroke="#CC2719" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 13v-3h4v3" stroke="#CC2719" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-t="v1.h">Made in Foggia, built for Europe</h3>
+        <p data-t="v1.p">Costruiamo dal Sud Italia con l'ambizione di chi non ha niente da dimostrare — e tutto da costruire. Foggia non è uno svantaggio. È la nostra storia, il nostro punto di partenza, il motivo per cui non ci fermiamo. L'innovazione non ha un codice postale.</p>
+      </div>
+
+      <div class="vc rv">
+        <div class="vc-n">02</div>
+        <div class="vc-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="#CC2719" stroke-width="1.2"/><path d="M8 5v2.5l1.5 1.5" stroke="#CC2719" stroke-width="1.2" stroke-linecap="round"/><path d="M5 3L3 1M11 3l2-2M8 2V1" stroke="#CC2719" stroke-width="1.1" stroke-linecap="round" opacity=".5"/></svg>
+        </div>
+        <h3 data-t="v2.h">Costruiamo per l'AGI, non per oggi</h3>
+        <p data-t="v2.p">Il mercato attuale è la partenza — non il traguardo. Ogni decisione architetturale di Foveans è presa pensando a dove starà l'AI tra 10 anni. Vogliamo essere l'infrastruttura che regge quando arriverà la prossima ondata, non quella che viene sostituita da essa.</p>
+      </div>
+
+      <div class="vc rv">
+        <div class="vc-n">03</div>
+        <div class="vc-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5H13l-2.8 2.1 1 3.4L8 9.2l-3.2 1.8 1-3.4L3 5.5h3.5L8 2z" stroke="#CC2719" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 data-t="v3.h">I giovani costruiscono il futuro</h3>
+        <p data-t="v3.p">Foveans è un laboratorio di innovazione italiana costruito da under 25 con la mentalità dei ricercatori. Crediamo che l'età non sia una credenziale — la qualità del lavoro lo è. E crediamo che il Sud Italia abbia il talento per competere con chiunque, ovunque.</p>
+      </div>
+
+      <div class="vc rv">
+        <div class="vc-n">04</div>
+        <div class="vc-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="12" height="4" rx="1" stroke="#CC2719" stroke-width="1.2"/><rect x="4" y="6" width="8" height="4" rx="1" stroke="#CC2719" stroke-width="1.2"/><rect x="6" y="2" width="4" height="4" rx="1" stroke="#CC2719" stroke-width="1.2"/></svg>
+        </div>
+        <h3 data-t="v4.h">Infrastructure, not features</h3>
+        <p data-t="v4.p">Cisco non ha venduto siti web. Ha costruito i router su cui girano tutti i siti web del mondo. Foveans non vende chatbot AI. Costruisce il protocollo, il vault, l'orchestratore su cui girano tutti gli agenti AI enterprise. C'è differenza — e quella differenza è tutto.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- TEAM -->
+<section class="sec" id="team">
+  <div class="W">
+    <span class="ey" data-t="s4.ey">// 04 — Team</span>
+    <div class="team-layout">
+      <div class="team-intro rv">
+        <h3 data-t="s4.h">Due persone. Una visione. Nessuna scusa.</h3>
+        <p data-t="s4.p1">Foveans è stata fondata da due persone complementari che si sono trovate al momento giusto. Uno vede il mercato prima che esista. L'altro costruisce quello che il mercato non sa ancora di volere.</p>
+        <p data-t="s4.p2">Non gestiamo un'azienda come si insegna nei libri. Gestiamo un laboratorio — dove ogni problema è un esperimento, ogni prodotto è una tesi, e ogni cliente è la validazione di un'ipotesi che abbiamo fatto mesi prima.</p>
+      </div>
+      <div class="rv">
+        <div class="tc">
+          <div class="tc-in">
+            <div class="tc-av r">AA</div>
+            <div class="tc-b">
+              <div class="tc-nm">Armando Anselmi</div>
+              <div class="tc-rl r" data-t="t1.r">CEO & Co-founder</div>
+              <p class="tc-bio" data-t="t1.b">Studente di Informatica all'Università di Bari. A seconda del giorno è il visionario che vede il mercato 5 anni avanti, il connettore che porta le persone giuste insieme, o il builder che costruisce cose che non avrebbero dovuto essere possibili. Spesso tutti e tre.</p>
+              <div class="tc-tags">
+                <span class="tg" data-t="t1.t1">Visione</span>
+                <span class="tg" data-t="t1.t2">Strategy</span>
+                <span class="tg" data-t="t1.t3">Business Dev</span>
+                <span class="tg">UniBa</span>
+                <span class="tg">YC Startup School</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-in">
+            <div class="tc-av d">VS</div>
+            <div class="tc-b">
+              <div class="tc-nm">Valerio S. Di Maggio</div>
+              <div class="tc-rl d" data-t="t2.r">CTO & Co-founder</div>
+              <p class="tc-bio" data-t="t2.b">L'architetto silenzioso. Costruisce cose che altri non riescono nemmeno a immaginare. Laurea 110/110 in Informatica a Bari, Magistrale in AI & Data Science al Politecnico di Bari. Ha progettato e costruito l'intero stack Foveans — da solo, da zero, in dieci mesi.</p>
+              <div class="tc-tags">
+                <span class="tg">Architecture</span>
+                <span class="tg">AI/ML</span>
+                <span class="tg">Kubernetes</span>
+                <span class="tg">Poliba</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- INVESTITORI -->
+<section class="sec" id="investitori">
+  <div class="W">
+    <span class="ey" data-t="s5.ey">// 05 — Investitori</span>
+    <h2 class="ht rv" data-t="s5.h">Stiamo costruendo qualcosa che dura.</h2>
+    <p class="hb rv" data-t="s5.p">Se credi che l'infrastruttura AI europea abbia bisogno di un sistema operativo — e che quel sistema operativo debba nascere in Italia — parliamoci.</p>
+    <div class="inv-wrap rv">
+      <div class="inv-stat">
+        <div class="n">$73<span class="r">B</span></div>
+        <div class="l" data-t="inv.s1">Mercato AI orchestration<br>entro il 2030</div>
+      </div>
+      <div class="inv-stat">
+        <div class="n">€8<span class="r">M</span></div>
+        <div class="l" data-t="inv.s2">Pre-money valuation<br>seed round aperto</div>
+      </div>
+      <div class="inv-stat">
+        <div class="n" style="font-size:clamp(20px,2.5vw,32px);line-height:1.2" data-t="inv.s3n">EU AI Act</div>
+        <div class="l" data-t="inv.s3">Domanda normativa obbligatoria<br>già attiva dal 2025</div>
+      </div>
+      <div class="inv-cta">
+        <button class="btn-p" onclick="s2('contatti')" style="justify-content:center">
+          <span data-t="inv.cta">Richiedi il pitch deck</span>
+        </button>
+        <span style="font-size:11px;color:var(--d1);text-align:center;font-family:var(--fm);letter-spacing:.04em" data-t="inv.sub">Risposta entro 24h</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- LAVORA CON NOI -->
+<section class="sec" id="lavora">
+  <div class="W">
+    <span class="ey" data-t="s6.ey">// 06 — Carriere</span>
+    <div class="jobs-grid rv">
+      <div class="jobs-left">
+        <h3 data-t="s6.h">Non stiamo cercando un ruolo.<br>Stiamo cercando persone che costruiscono prima di chiedere il permesso.</h3>
+        <p data-t="s6.p1">Foveans non è un posto dove eseguire task in un backlog. È un laboratorio dove le idee migliori vincono — indipendentemente da chi le ha avute, dall'anzianità, dal titolo di studio.</p>
+        <p data-t="s6.p2">Siamo una squadra piccola e vogliamo restare piccola a lungo. Ogni persona che entra deve spostare l'asticella. Se cerchi stabilità e procedure consolidate, non siamo il posto giusto per te. Se cerchi un posto dove quello che costruisci oggi finisce in produzione domani, siediti.</p>
+        <p data-t="s6.p3">Costruiamo da Foggia. Lavoriamo in remoto. Crediamo che il talento non abbia indirizzo.</p>
+        <div style="margin-top:24px">
+          <button class="btn-p" onclick="s2('contatti')">
+            <span data-t="s6.cta">Scrivici</span>
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="jobs-pills">
+        <div class="jp">
+          <h4 data-t="j1.h">Come lavoriamo</h4>
+          <p data-t="j1.p">Ogni problema è un esperimento. Ogni prodotto è una tesi. Iteriamo veloce, misuriamo tutto, non ci innamoriamo delle nostre idee — ci innamoriamo dei risultati.</p>
+          <span class="jp-tag" data-t="j1.t">Cultura</span>
+        </div>
+        <div class="jp">
+          <h4 data-t="j2.h">Cosa cerchiamo</h4>
+          <p data-t="j2.p">Ingegneri AI e backend che costruiscono architetture, non tutorial. Persone che hanno già costruito qualcosa — anche piccolo, anche rotto — prima di candidarsi qui.</p>
+          <span class="jp-tag" data-t="j2.t">Profili</span>
+        </div>
+        <div class="jp">
+          <h4 data-t="j3.h">Cosa offriamo</h4>
+          <p data-t="j3.p">Equity, impatto reale, accesso diretto ai founder. Nessun livello intermedio. Il tuo lavoro finisce in produzione — non in una demo per il management.</p>
+          <span class="jp-tag" data-t="j3.t">Offerta</span>
+        </div>
+        <div class="jp">
+          <h4 data-t="j4.h">Il candidato ideale</h4>
+          <p data-t="j4.p">Ha letto il codice sorgente di qualcosa prima di usarlo. Pensa in sistemi, non in funzionalità. Non dice "non è compito mio".</p>
+          <span class="jp-tag" data-t="j4.t">Mindset</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- BLOG -->
+<section class="sec" id="blog">
+  <div class="W">
+    <div class="blog-hdr">
+      <div>
+        <span class="ey" data-t="s7.ey">// 07 — Blog</span>
+        <h2 class="ht" style="margin-bottom:0" data-t="s7.h">Pensieri dal laboratorio.</h2>
+      </div>
+      <a href="#" class="arr d rv">
+        <span data-t="s7.all">Tutti gli articoli</span>
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="bg rv">
+      <div class="bc">
+        <div class="bth">
+          <div class="bth-bg"><svg viewBox="0 0 80 80" fill="none"><rect x="5" y="5" width="32" height="32" rx="3" stroke="currentColor" stroke-width="2"/><rect x="43" y="5" width="32" height="32" rx="3" stroke="currentColor" stroke-width="2"/><rect x="5" y="43" width="32" height="32" rx="3" stroke="currentColor" stroke-width="2"/><rect x="43" y="43" width="32" height="32" rx="3" stroke="currentColor" stroke-width="2"/></svg></div>
+          <div class="bth-ico"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="#CC2719" stroke-width="1.5"/><rect x="18" y="4" width="10" height="10" rx="2" stroke="#4A2E2C" stroke-width="1.5"/><rect x="4" y="18" width="10" height="10" rx="2" stroke="#4A2E2C" stroke-width="1.5"/><rect x="18" y="18" width="10" height="10" rx="2" stroke="#2A1414" stroke-width="1.5"/></svg></div>
+        </div>
+        <div class="bb">
+          <p class="bcat" data-t="b1.c">Engineering</p>
+          <h3 data-t="b1.h">Come abbiamo costruito il self-healing coordinator in 10 mesi</h3>
+          <p data-t="b1.p">Architettura, decisioni sbagliate corrette, e perché il recovery automatico L0→L3 è più difficile da costruire di quanto sembri.</p>
+          <p class="bm" data-t="b1.m">Feb 2026 · 12 min</p>
+        </div>
+      </div>
+      <div class="bc">
+        <div class="bth">
+          <div class="bth-bg"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="32" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="16" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="4" stroke="currentColor" stroke-width="2"/></svg></div>
+          <div class="bth-ico"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M8 25L16 7l8 18H8z" stroke="#CC2719" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 19h10" stroke="#4A2E2C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="bb">
+          <p class="bcat" data-t="b2.c">Visione</p>
+          <h3 data-t="b2.h">Perché Foveans vuole essere Cisco — non OpenAI</h3>
+          <p data-t="b2.p">La differenza tra costruire il prodotto AI e costruire l'infrastruttura AI. E perché quella differenza vale miliardi in 10 anni.</p>
+          <p class="bm" data-t="b2.m">Gen 2026 · 8 min</p>
+        </div>
+      </div>
+      <div class="bc">
+        <div class="bth">
+          <div class="bth-bg"><svg viewBox="0 0 80 80" fill="none"><path d="M40 10L70 65H10L40 10z" stroke="currentColor" stroke-width="2"/><path d="M40 35v15M40 55v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="bth-ico"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.4 4 4 9.4 4 16s5.4 12 12 12 12-5.4 12-12S22.6 4 16 4z" stroke="#CC2719" stroke-width="1.5"/><path d="M16 10v6l4 4" stroke="#CC2719" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="bb">
+          <p class="bcat" data-t="b3.c">Sud Italia</p>
+          <h3 data-t="b3.h">Costruire da Foggia: quello che nessuno ti dice</h3>
+          <p data-t="b3.p">Smart & Start, Equity Puglia, e il vantaggio competitivo inaspettato di costruire lontano dai centri dell'hype.</p>
+          <p class="bm" data-t="b3.m">Mar 2026 · 6 min</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="cta-bg">FOVEANS</div>
+  <h2 data-t="cta.h">Costruiamo qualcosa<br>che dura.</h2>
+  <p data-t="cta.p">Se credi in quello che stiamo costruendo — come cliente, come investitore, o come prossimo membro del team — parliamoci.</p>
+  <button class="btn-inv" onclick="s2('contatti')">
+    <span data-t="cta.b">Entra in contatto</span>
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<!-- CONTACT -->
+<div class="ct-wrap" id="contatti">
+  <div class="ct-in">
+    <div>
+      <span class="ey" data-t="s8.ey">// 08 — Contatti</span>
+      <h2 class="ht" style="font-size:clamp(26px,4vw,44px)" data-t="s8.h">Parliamoci.</h2>
+      <p style="color:var(--d2);font-size:14px;line-height:1.78;margin-top:10px" data-t="s8.p">Siamo aperti a conversazioni con clienti, investitori, ricercatori e potenziali collaboratori. Rispondiamo a ogni messaggio entro 24 ore.</p>
+      <div class="ct-info">
+        <div class="ci">
+          <div class="ci-ic"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 4l6 5 6-5M2 4h12v9H2V4z" stroke="#CC2719" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><p class="ci-lb">Email</p><p class="ci-vl r">foveans@pec.it</p></div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5s4.5-5 4.5-8.5c0-2.5-2-4.5-4.5-4.5z" stroke="#CC2719" stroke-width="1.2"/><circle cx="8" cy="6" r="1.5" stroke="#CC2719" stroke-width="1.2"/></svg></div>
+          <div><p class="ci-lb" data-t="ci.l">Sede</p><p class="ci-vl" data-t="ci.lv">Foggia, Puglia — Remote-first</p></div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="#CC2719" stroke-width="1.2"/><path d="M5 7h6M5 10h4" stroke="#CC2719" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+          <div><p class="ci-lb" data-t="ci.c">Società</p><p class="ci-vl">Foveans S.r.l. — Startup Innovativa</p></div>
+        </div>
+      </div>
+    </div>
+    <form class="cform" onsubmit="return false">
+      <div class="fr2">
+        <div class="fg"><label data-t="cf.fn">Nome</label><input type="text" placeholder="Mario"></div>
+        <div class="fg"><label data-t="cf.ln">Cognome</label><input type="text" placeholder="Rossi"></div>
+      </div>
+      <div class="fg"><label data-t="cf.em">Email</label><input type="email" placeholder="mario@azienda.it"></div>
+      <div class="fg"><label data-t="cf.co">Organizzazione</label><input type="text" placeholder="Azienda / Fondo / Università"></div>
+      <div class="fg">
+        <label data-t="cf.su">Di cosa vuoi parlarci?</label>
+        <select>
+          <option data-t="cf.o0">Seleziona...</option>
+          <option data-t="cf.o1">Demo di ARIA-OP</option>
+          <option data-t="cf.o2">Investimento / Seed round</option>
+          <option data-t="cf.o3">Partnership</option>
+          <option data-t="cf.o4">Ricerca / Collaborazione accademica</option>
+          <option data-t="cf.o5">Lavora con noi</option>
+          <option data-t="cf.o6">Stampa / Media</option>
+          <option data-t="cf.o7">Altro</option>
+        </select>
+      </div>
+      <div class="fg"><label data-t="cf.ms">Messaggio</label><textarea rows="4" placeholder="Raccontaci cosa hai in mente..."></textarea></div>
+      <button type="submit" class="bsend" data-t="cf.sb">Invia →</button>
+      <p class="cnote"><span data-t="cf.nt">Inviando accetti la nostra</span> <a href="#" data-t="cf.pp">Privacy Policy</a>.</p>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="ft-top">
+      <div class="fb">
+        <a href="/" class="nlogo" style="display:inline-flex">
+          <div class="nm"><span></span><span></span><span></span><span></span></div>
+          Foveans
+        </a>
+        <p data-t="ft.tl">Il sistema operativo per gli agenti AI enterprise. Costruiamo dal Sud Italia per l'Europa.</p>
+      </div>
+      <div class="fcol">
+        <h5 data-t="ft.h1">Prodotti</h5>
+        <ul>
+          <li><a href="https://aria-op.io" target="_blank">ARIA-OP ↗</a></li>
+          <li><a href="#prodotti" data-t="ft.p2">QARIA</a></li>
+          <li><a href="#prodotti" data-t="ft.p3">Foveans Suite</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5 data-t="ft.h2">Azienda</h5>
+        <ul>
+          <li><a href="#storia" data-t="ft.a1">Storia</a></li>
+          <li><a href="#team" data-t="ft.a2">Team</a></li>
+          <li><a href="#blog" data-t="ft.a3">Blog</a></li>
+          <li><a href="#investitori" data-t="ft.a4">Investitori</a></li>
+          <li><a href="#lavora" data-t="ft.a5">Carriere</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5 data-t="ft.h3">Legale</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#" data-t="ft.l1">Termini</a></li>
+          <li><a href="#">EU AI Act Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 Foveans S.r.l. — Foggia, Puglia — foveans@pec.it</span>
+      <div class="ftl">
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMob(){const m=document.getElementById('mob'),b=document.getElementById('burg');m.classList.toggle('open');b.classList.toggle('x')}
+document.addEventListener('click',e=>{const m=document.getElementById('mob'),b=document.getElementById('burg');if(m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target)){m.classList.remove('open');b.classList.remove('x')}});
+function s2(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')}),{threshold:.06});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+const T={
+it:{
+  "n.s":"Storia","n.p":"Prodotti","n.v":"Valori","n.t":"Team","n.i":"Investitori","n.l":"Carriere","n.c":"Contatti","n.cta":"Contattaci",
+  "h.k":"Foveans S.r.l. — Foggia, Italia — Founded 2026",
+  "h.a":"Il sistema operativo","h.b":"per gli agenti AI","h.c":"enterprise.",
+  "h.lead":"Foveans costruisce l'infrastruttura che manca. Piattaforme software che portano gli agenti AI dalla demo alla produzione — affidabili, conformi alle normative europee, progettate per durare decenni.",
+  "h.b1":"Scopri i prodotti","h.b2":"La nostra storia",
+  "hp.1":"Fondati a Foggia<br>Sud Italia","hp.2":"AI Act compliance<br>by design","hp.3":"Prodotti su<br>una piattaforma",
+  "s1.ey":"// 01 — Chi siamo",
+  "s1.pull":"Nasce dalla testardaggine di un ragazzo di Foggia che non ha aspettato il momento giusto — e non ha mai smesso di pensare <em>fuori dagli schemi</em>.",
+  "s1.p1":"Foveans non è partita da un garage della Silicon Valley. È partita da hackathon vinti, paper accademici pubblicati, feasibility analysis con grandi aziende — tutto costruito dal Sud, con le risorse disponibili e l'ambizione di chi non ha niente da perdere.",
+  "s1.p2":"La visione è semplice e ambiziosa insieme: diventare per gli agenti AI ciò che Cisco è stato per le reti. Non il prodotto che gira sopra l'infrastruttura — l'infrastruttura stessa. Il sistema operativo invisibile su cui tutto gira.",
+  "s1.p3":"Foveans vuole essere un laboratorio di innovazione italiana. Un posto che dimostra che si può costruire qualcosa di globale partendo da Foggia — e che il Sud non è un limite, è un vantaggio competitivo.",
+  "s1.c1n":"2024 — I primi segnali","s1.c1t":"Hackathon, paper su pianificazione urbana AI-driven, analisi di fattibilità su richiesta di aziende con miliardi di fatturato. Il mercato inizia a riconoscere quello che stavamo costruendo.",
+  "s1.c2n":"2025 — ARIA-OP prende forma","s1.c2t":"Dieci mesi di sviluppo intenso. 1.726 test automatici. Zero bug critici. Un protocollo proprietario, un'architettura self-healing, un vault cifrato AES-256. Da zero a production-ready.",
+  "s1.c3n":"Febbraio 2026 — Foveans S.r.l.","s1.c3t":"L'azienda viene costituita a Foggia. Startup Innovativa. Il prodotto è pronto, il mercato è pronto, l'EU AI Act crea la domanda. È il momento giusto.",
+  "s1.c4n":"Adesso — Scala europea","s1.c4t":"ARIA-OP in produzione. QARIA in sviluppo. Pipeline commerciale aperta. Seed round in corso. L'obiettivo è diventare lo standard europeo per la governance degli agenti AI.",
+  "s2.ey":"// 02 — Prodotti","s2.h":"Una suite. Una piattaforma.","s2.p":"Ogni prodotto Foveans risolve un problema preciso. Ognuno ha la sua pagina dedicata — qui trovi solo il quadro d'insieme.",
+  "p1.st":"In produzione","p1.type":"AI Agent Orchestration Platform","p1.desc":"La piattaforma per orchestrare, monitorare e governare agenti AI in produzione. Visual workflow builder no-code, self-healing L0→L3, EU AI Act compliance nativa. Il primo prodotto Foveans — production-ready.","p1.lk":"Vai su aria-op.io",
+  "p2.st":"In sviluppo","p2.type":"Quantum AI Orchestration","p2.desc":"L'estensione quantistica di ARIA-OP. Orchestrazione di agenti AI su hardware quantistico europeo — costruita per l'ecosistema EU, in integrazione con i principali centri di calcolo quantistico italiani.","p2.eta":"Beta · Q4 2026",
+  "p3.st":"Roadmap 2027","p3.name":"Foveans Suite","p3.type":"Enterprise AI Governance","p3.desc":"La suite completa per la governance AI enterprise. Compliance audit tools, agent marketplace, enterprise identity layer. I dettagli verranno comunicati nelle prossime release.",
+  "s3.ey":"// 03 — Valori","s3.h":"Perché costruiamo così.",
+  "v1.h":"Made in Foggia, built for Europe","v1.p":"Costruiamo dal Sud Italia con l'ambizione di chi non ha niente da dimostrare — e tutto da costruire. Foggia non è uno svantaggio. È la nostra storia, il nostro punto di partenza, il motivo per cui non ci fermiamo. L'innovazione non ha un codice postale.",
+  "v2.h":"Costruiamo per l'AGI, non per oggi","v2.p":"Il mercato attuale è la partenza — non il traguardo. Ogni decisione architetturale di Foveans è presa pensando a dove starà l'AI tra 10 anni. Vogliamo essere l'infrastruttura che regge quando arriverà la prossima ondata, non quella che viene sostituita da essa.",
+  "v3.h":"I giovani costruiscono il futuro","v3.p":"Foveans è un laboratorio di innovazione italiana costruito da under 25 con la mentalità dei ricercatori. Crediamo che l'età non sia una credenziale — la qualità del lavoro lo è. E crediamo che il Sud Italia abbia il talento per competere con chiunque, ovunque.",
+  "v4.h":"Infrastructure, not features","v4.p":"Cisco non ha venduto siti web. Ha costruito i router su cui girano tutti i siti web del mondo. Foveans non vende chatbot AI. Costruisce il protocollo, il vault, l'orchestratore su cui girano tutti gli agenti AI enterprise. C'è differenza — e quella differenza è tutto.",
+  "s4.ey":"// 04 — Team","s4.h":"Due persone. Una visione. Nessuna scusa.","s4.p1":"Foveans è stata fondata da due persone complementari che si sono trovate al momento giusto. Uno vede il mercato prima che esista. L'altro costruisce quello che il mercato non sa ancora di volere.","s4.p2":"Non gestiamo un'azienda come si insegna nei libri. Gestiamo un laboratorio — dove ogni problema è un esperimento, ogni prodotto è una tesi, e ogni cliente è la validazione di un'ipotesi che abbiamo fatto mesi prima.",
+  "t1.r":"CEO & Co-founder","t1.b":"Studente di Informatica all'Università di Bari. A seconda del giorno è il visionario che vede il mercato 5 anni avanti, il connettore che porta le persone giuste insieme, o il builder che costruisce cose che non avrebbero dovuto essere possibili. Spesso tutti e tre.","t1.t1":"Visione","t1.t2":"Strategy","t1.t3":"Business Dev",
+  "t2.r":"CTO & Co-founder","t2.b":"L'architetto silenzioso. Costruisce cose che altri non riescono nemmeno a immaginare. Laurea 110/110 in Informatica a Bari, Magistrale in AI & Data Science al Politecnico di Bari. Ha progettato e costruito l'intero stack Foveans — da solo, da zero, in dieci mesi.",
+  "s5.ey":"// 05 — Investitori","s5.h":"Stiamo costruendo qualcosa che dura.","s5.p":"Se credi che l'infrastruttura AI europea abbia bisogno di un sistema operativo — e che quel sistema operativo debba nascere in Italia — parliamoci.",
+  "inv.s1":"Mercato AI orchestration<br>entro il 2030","inv.s2":"Pre-money valuation<br>seed round aperto","inv.s3n":"EU AI Act","inv.s3":"Domanda normativa obbligatoria<br>già attiva dal 2025","inv.cta":"Richiedi il pitch deck","inv.sub":"Risposta entro 24h",
+  "s6.ey":"// 06 — Carriere","s6.h":"Non stiamo cercando un ruolo.<br>Stiamo cercando persone che costruiscono prima di chiedere il permesso.",
+  "s6.p1":"Foveans non è un posto dove eseguire task in un backlog. È un laboratorio dove le idee migliori vincono — indipendentemente da chi le ha avute, dall'anzianità, dal titolo di studio.","s6.p2":"Siamo una squadra piccola e vogliamo restare piccola a lungo. Ogni persona che entra deve spostare l'asticella. Se cerchi stabilità e procedure consolidate, non siamo il posto giusto per te. Se cerchi un posto dove quello che costruisci oggi finisce in produzione domani, siediti.","s6.p3":"Costruiamo da Foggia. Lavoriamo in remoto. Crediamo che il talento non abbia indirizzo.","s6.cta":"Scrivici",
+  "j1.h":"Come lavoriamo","j1.p":"Ogni problema è un esperimento. Ogni prodotto è una tesi. Iteriamo veloce, misuriamo tutto, non ci innamoriamo delle nostre idee — ci innamoriamo dei risultati.","j1.t":"Cultura",
+  "j2.h":"Cosa cerchiamo","j2.p":"Ingegneri AI e backend che costruiscono architetture, non tutorial. Persone che hanno già costruito qualcosa — anche piccolo, anche rotto — prima di candidarsi qui.","j2.t":"Profili",
+  "j3.h":"Cosa offriamo","j3.p":"Equity, impatto reale, accesso diretto ai founder. Nessun livello intermedio. Il tuo lavoro finisce in produzione — non in una demo per il management.","j3.t":"Offerta",
+  "j4.h":"Il candidato ideale","j4.p":"Ha letto il codice sorgente di qualcosa prima di usarlo. Pensa in sistemi, non in funzionalità. Non dice 'non è compito mio'.","j4.t":"Mindset",
+  "s7.ey":"// 07 — Blog","s7.h":"Pensieri dal laboratorio.","s7.all":"Tutti gli articoli",
+  "b1.c":"Engineering","b1.h":"Come abbiamo costruito il self-healing coordinator in 10 mesi","b1.p":"Architettura, decisioni sbagliate corrette, e perché il recovery automatico L0→L3 è più difficile da costruire di quanto sembri.","b1.m":"Feb 2026 · 12 min",
+  "b2.c":"Visione","b2.h":"Perché Foveans vuole essere Cisco — non OpenAI","b2.p":"La differenza tra costruire il prodotto AI e costruire l'infrastruttura AI. E perché quella differenza vale miliardi in 10 anni.","b2.m":"Gen 2026 · 8 min",
+  "b3.c":"Sud Italia","b3.h":"Costruire da Foggia: quello che nessuno ti dice","b3.p":"Smart & Start, Equity Puglia, e il vantaggio competitivo inaspettato di costruire lontano dai centri dell'hype.","b3.m":"Mar 2026 · 6 min",
+  "cta.h":"Costruiamo qualcosa<br>che dura.","cta.p":"Se credi in quello che stiamo costruendo — come cliente, come investitore, o come prossimo membro del team — parliamoci.","cta.b":"Entra in contatto",
+  "s8.ey":"// 08 — Contatti","s8.h":"Parliamoci.","s8.p":"Siamo aperti a conversazioni con clienti, investitori, ricercatori e potenziali collaboratori. Rispondiamo a ogni messaggio entro 24 ore.",
+  "ci.l":"Sede","ci.lv":"Foggia, Puglia — Remote-first","ci.c":"Società",
+  "cf.fn":"Nome","cf.ln":"Cognome","cf.em":"Email","cf.co":"Organizzazione","cf.su":"Di cosa vuoi parlarci?","cf.o0":"Seleziona...","cf.o1":"Demo di ARIA-OP","cf.o2":"Investimento / Seed round","cf.o3":"Partnership","cf.o4":"Ricerca / Collaborazione accademica","cf.o5":"Lavora con noi","cf.o6":"Stampa / Media","cf.o7":"Altro","cf.ms":"Messaggio","cf.sb":"Invia →","cf.nt":"Inviando accetti la nostra","cf.pp":"Privacy Policy",
+  "ft.tl":"Il sistema operativo per gli agenti AI enterprise. Costruiamo dal Sud Italia per l'Europa.","ft.h1":"Prodotti","ft.h2":"Azienda","ft.h3":"Legale","ft.p2":"QARIA","ft.p3":"Foveans Suite","ft.a1":"Storia","ft.a2":"Team","ft.a3":"Blog","ft.a4":"Investitori","ft.a5":"Carriere","ft.l1":"Termini"
+},
+en:{
+  "n.s":"Story","n.p":"Products","n.v":"Values","n.t":"Team","n.i":"Investors","n.l":"Careers","n.c":"Contact","n.cta":"Contact us",
+  "h.k":"Foveans S.r.l. — Foggia, Italy — Founded 2026",
+  "h.a":"The operating system","h.b":"for enterprise","h.c":"AI agents.",
+  "h.lead":"Foveans builds the missing infrastructure. Software platforms that take AI agents from demo to production — reliable, compliant with European regulations, built to last decades.",
+  "h.b1":"Explore products","h.b2":"Our story",
+  "hp.1":"Founded in Foggia<br>Southern Italy","hp.2":"EU AI Act compliance<br>by design","hp.3":"Products on<br>one platform",
+  "s1.ey":"// 01 — Who we are",
+  "s1.pull":"Born from the stubbornness of a kid from Foggia who never waited for the right moment — and never stopped thinking <em>outside the box</em>.",
+  "s1.p1":"Foveans didn't start in a Silicon Valley garage. It started with hackathons won, academic papers published, feasibility analyses requested by billion-dollar companies — all built from the South, with available resources and the ambition of someone with nothing to lose.",
+  "s1.p2":"The vision is simple and ambitious at once: become for AI agents what Cisco was for networks. Not the product running on top of the infrastructure — the infrastructure itself. The invisible operating system that everything runs on.",
+  "s1.p3":"Foveans wants to be an Italian innovation laboratory. A place that proves you can build something global starting from Foggia — and that the South is not a limitation, it's a competitive advantage.",
+  "s1.c1n":"2024 — Early signals","s1.c1t":"Hackathons, a paper on AI-driven urban planning, feasibility analyses requested by multi-billion revenue companies. The market starts recognizing what we were building.",
+  "s1.c2n":"2025 — ARIA-OP takes shape","s1.c2t":"Ten months of intense development. 1,726 automated tests. Zero critical bugs. A proprietary protocol, a self-healing architecture, an AES-256 encrypted vault. From zero to production-ready.",
+  "s1.c3n":"February 2026 — Foveans S.r.l.","s1.c3t":"The company is incorporated in Foggia. Innovative Startup. The product is ready, the market is ready, the EU AI Act creates the demand. The time is right.",
+  "s1.c4n":"Now — European scale","s1.c4t":"ARIA-OP in production. QARIA in development. Open commercial pipeline. Seed round in progress. The goal is to become the European standard for AI agent governance.",
+  "s2.ey":"// 02 — Products","s2.h":"One suite. One platform.","s2.p":"Each Foveans product solves a specific problem. Each has its own dedicated page — here you'll find only the overview.",
+  "p1.st":"Live in production","p1.type":"AI Agent Orchestration Platform","p1.desc":"The platform to orchestrate, monitor, and govern AI agents in production. No-code visual workflow builder, self-healing L0→L3, native EU AI Act compliance. The first Foveans product — production-ready.","p1.lk":"Go to aria-op.io",
+  "p2.st":"In development","p2.type":"Quantum AI Orchestration","p2.desc":"The quantum extension of ARIA-OP. Orchestration of AI agents on European quantum hardware — built for the EU ecosystem, integrating with major Italian quantum computing centers.","p2.eta":"Beta · Q4 2026",
+  "p3.st":"Roadmap 2027","p3.name":"Foveans Suite","p3.type":"Enterprise AI Governance","p3.desc":"The complete enterprise AI governance suite. Compliance audit tools, agent marketplace, enterprise identity layer. Details will be announced in upcoming releases.",
+  "s3.ey":"// 03 — Values","s3.h":"Why we build this way.",
+  "v1.h":"Made in Foggia, built for Europe","v1.p":"We build from Southern Italy with the ambition of someone with nothing to prove — and everything to build. Foggia is not a disadvantage. It's our story, our starting point, the reason we don't stop. Innovation has no postal code.",
+  "v2.h":"We build for AGI, not for today","v2.p":"The current market is the starting point — not the destination. Every architectural decision at Foveans is made thinking about where AI will be in 10 years. We want to be the infrastructure that holds when the next wave arrives, not the one that gets replaced by it.",
+  "v3.h":"Young people build the future","v3.p":"Foveans is an Italian innovation laboratory built by under-25s with a researcher's mindset. We believe age is not a credential — the quality of work is. And we believe Southern Italy has the talent to compete with anyone, anywhere.",
+  "v4.h":"Infrastructure, not features","v4.p":"Cisco didn't sell websites. It built the routers that all the world's websites run on. Foveans doesn't sell AI chatbots. It builds the protocol, the vault, the orchestrator that all enterprise AI agents run on. There's a difference — and that difference is everything.",
+  "s4.ey":"// 04 — Team","s4.h":"Two people. One vision. No excuses.","s4.p1":"Foveans was founded by two complementary people who found each other at the right moment. One sees the market before it exists. The other builds what the market doesn't know it wants yet.","s4.p2":"We don't run a company like the textbooks teach. We run a laboratory — where every problem is an experiment, every product is a thesis, and every client is the validation of a hypothesis we made months before.",
+  "t1.r":"CEO & Co-founder","t1.b":"Computer Science student at University of Bari. On any given day he's the visionary who sees the market 5 years ahead, the connector who brings the right people together, or the builder who creates things that shouldn't have been possible. Often all three.","t1.t1":"Vision","t1.t2":"Strategy","t1.t3":"Business Dev",
+  "t2.r":"CTO & Co-founder","t2.b":"The silent architect. Builds things others can't even imagine. CS degree 110/110 in Bari, MSc in AI & Data Science at Politecnico di Bari. Designed and built the entire Foveans stack — alone, from scratch, in ten months.",
+  "s5.ey":"// 05 — Investors","s5.h":"We're building something that lasts.","s5.p":"If you believe European AI infrastructure needs an operating system — and that operating system should come from Italy — let's talk.",
+  "inv.s1":"AI orchestration market<br>by 2030","inv.s2":"Pre-money valuation<br>open seed round","inv.s3n":"EU AI Act","inv.s3":"Mandatory regulatory demand<br>already active since 2025","inv.cta":"Request pitch deck","inv.sub":"Reply within 24h",
+  "s6.ey":"// 06 — Careers","s6.h":"We're not looking for a role.<br>We're looking for people who build before asking permission.",
+  "s6.p1":"Foveans is not a place to execute tasks in a backlog. It's a laboratory where the best ideas win — regardless of who had them, seniority, or academic credentials.","s6.p2":"We're a small team and want to stay small for a long time. Every person who joins must raise the bar. If you're looking for stability and established procedures, we're not the right place. If you're looking for a place where what you build today ships tomorrow, sit down.","s6.p3":"We build from Foggia. We work remotely. We believe talent has no address.","s6.cta":"Write to us",
+  "j1.h":"How we work","j1.p":"Every problem is an experiment. Every product is a thesis. We iterate fast, measure everything, don't fall in love with our ideas — we fall in love with results.","j1.t":"Culture",
+  "j2.h":"What we look for","j2.p":"AI and backend engineers who build architectures, not tutorials. People who have already built something — even small, even broken — before applying here.","j2.t":"Profiles",
+  "j3.h":"What we offer","j3.p":"Equity, real impact, direct access to founders. No intermediate layers. Your work ships to production — not to a management demo.","j3.t":"Offer",
+  "j4.h":"The ideal candidate","j4.p":"Has read the source code of something before using it. Thinks in systems, not features. Never says 'that's not my job'.","j4.t":"Mindset",
+  "s7.ey":"// 07 — Blog","s7.h":"Thoughts from the lab.","s7.all":"All articles",
+  "b1.c":"Engineering","b1.h":"How we built the self-healing coordinator in 10 months","b1.p":"Architecture, wrong decisions corrected, and why automatic L0→L3 recovery is harder to build than it looks.","b1.m":"Feb 2026 · 12 min",
+  "b2.c":"Vision","b2.h":"Why Foveans wants to be Cisco — not OpenAI","b2.p":"The difference between building the AI product and building the AI infrastructure. And why that difference is worth billions in 10 years.","b2.m":"Jan 2026 · 8 min",
+  "b3.c":"Southern Italy","b3.h":"Building from Foggia: what nobody tells you","b3.p":"Smart & Start, Equity Puglia, and the unexpected competitive advantage of building away from the hype centers.","b3.m":"Mar 2026 · 6 min",
+  "cta.h":"We're building something<br>that lasts.","cta.p":"If you believe in what we're building — as a customer, investor, or next team member — let's talk.","cta.b":"Get in touch",
+  "s8.ey":"// 08 — Contact","s8.h":"Let's talk.","s8.p":"We're open to conversations with customers, investors, researchers, and potential collaborators. We reply to every message within 24 hours.",
+  "ci.l":"Location","ci.lv":"Foggia, Puglia — Remote-first","ci.c":"Company",
+  "cf.fn":"First name","cf.ln":"Last name","cf.em":"Email","cf.co":"Organization","cf.su":"What do you want to talk about?","cf.o0":"Select...","cf.o1":"ARIA-OP demo","cf.o2":"Investment / Seed round","cf.o3":"Partnership","cf.o4":"Research / Academic collaboration","cf.o5":"Join the team","cf.o6":"Press / Media","cf.o7":"Other","cf.ms":"Message","cf.sb":"Send →","cf.nt":"By submitting you agree to our","cf.pp":"Privacy Policy",
+  "ft.tl":"The operating system for enterprise AI agents. Building from Southern Italy for Europe.","ft.h1":"Products","ft.h2":"Company","ft.h3":"Legal","ft.p2":"QARIA","ft.p3":"Foveans Suite","ft.a1":"Story","ft.a2":"Team","ft.a3":"Blog","ft.a4":"Investors","ft.a5":"Careers","ft.l1":"Terms"
+}};
+let lang='it';
+function setLang(l){
+  lang=l;document.documentElement.lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.getAttribute('data-t');if(T[l][k]!=null)el.innerHTML=T[l][k]});
+  document.title=l==='it'?'Foveans — Il sistema operativo per gli agenti AI enterprise':'Foveans — The operating system for enterprise AI agents';
+}
+</script>
+</body>
+</html>

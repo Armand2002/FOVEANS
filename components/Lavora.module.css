@@ -1,0 +1,44 @@
+.jobsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+  margin-top: 48px;
+}
+
+.jobsLeft h2 {
+  font-family: var(--fh);
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.22;
+  margin-bottom: 16px;
+  white-space: pre-line;
+}
+.jobsLeft p { font-size: 14px; color: var(--d2); line-height: 1.8; margin-bottom: 14px; }
+
+.jobsPills { display: flex; flex-direction: column; gap: 10px; }
+
+.jp {
+  background: var(--ink2);
+  border: 1px solid var(--ln2);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color .2s;
+}
+.jp:hover { border-color: rgba(204,39,25,.16); }
+.jp h3 { font-family: var(--fh); font-size: 14px; font-weight: 700; letter-spacing: -.015em; margin-bottom: 6px; }
+.jp p  { font-size: 13px; color: var(--d2); line-height: 1.68; }
+.jpTag {
+  display: inline-block;
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--red3);
+  background: rgba(204,39,25,.07);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+  letter-spacing: .05em;
+}
+
+@media (max-width: 768px) { .jobsGrid { grid-template-columns: 1fr; } }

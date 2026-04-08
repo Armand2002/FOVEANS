@@ -1,0 +1,79 @@
+.prodGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.pc {
+  background: var(--ink2);
+  border: 1px solid var(--ln2);
+  border-radius: 12px;
+  padding: clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  transition: border-color .2s, background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.pc::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.live::before { background: var(--red); }
+.soon::before { background: var(--d2); }
+.next::before { background: var(--ln2); }
+.live:hover { border-color: rgba(204,39,25,.2); background: var(--ink3); }
+.soon:hover { border-color: rgba(140,104,102,.2); background: var(--ink3); }
+.next { opacity: .55; }
+
+.pcSt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+.stLive {
+  background: rgba(204,39,25,.08);
+  color: var(--red3);
+  border: 1px solid rgba(204,39,25,.16);
+}
+.stLive::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(204,39,25,.5);
+}
+.stSoon { background: rgba(140,104,102,.08); color: var(--d2); border: 1px solid rgba(140,104,102,.15); }
+.stNext { background: transparent; color: var(--d1); border: 1px solid var(--ln2); }
+
+.pcName {
+  font-family: var(--fh);
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin-bottom: 4px;
+}
+.pcType {
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--d1);
+  letter-spacing: .04em;
+  margin-bottom: 16px;
+}
+.pcDesc { font-size: 13px; color: var(--d2); line-height: 1.76; flex: 1; margin-bottom: 20px; }
+.pcFoot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--ln); }
+.pcEta { font-family: var(--fm); font-size: 11px; color: var(--d1); letter-spacing: .05em; }
+
+@media (max-width: 1024px) { .prodGrid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px)  { .prodGrid { grid-template-columns: 1fr; } }
