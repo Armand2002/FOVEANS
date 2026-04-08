@@ -144,7 +144,7 @@ export default function Contact() {
           )}
 
           <p className={styles.cnote}>
-            {t('cf.nt')} <a href="#">{t('cf.pp')}</a>.
+            {t('cf.nt')} <a href="/privacy-policy">{t('cf.pp')}</a>.
           </p>
         </form>
       </div>

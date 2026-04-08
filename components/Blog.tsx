@@ -69,7 +69,7 @@ export default function Blog() {
             <h2 className="ht" id="blog-heading" style={{ marginBottom: 0 }}>{t('s7.h')}</h2>
           </div>
           <ScrollReveal>
-            <a href="#" className="arr d" aria-label="Vedi tutti gli articoli del blog">
+            <a href="/blog" className="arr d" aria-label="Vedi tutti gli articoli del blog">
               <span>{t('s7.all')}</span>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>

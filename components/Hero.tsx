@@ -35,7 +35,7 @@ export default function Hero() {
         <div className={`${styles.hPills} fu d4`} role="list" aria-label="Statistiche chiave">
           <div className={styles.hp} role="listitem">
             <div className={styles.hpN}>2026</div>
-            <div className={styles.hpL}>{t('hp.1').replace('\n', '\n')}</div>
+            <div className={styles.hpL}>{t('hp.1')}</div>
           </div>
           <div className={styles.hp} role="listitem">
             <div className={styles.hpN}><span className={styles.r}>EU</span></div>

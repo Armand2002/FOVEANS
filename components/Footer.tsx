@@ -43,10 +43,10 @@ export default function Footer() {
           <div className={styles.fcol}>
             <h5>{t('ft.h3')}</h5>
             <ul>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-              <li><a href="#">{t('ft.l1')}</a></li>
-              <li><a href="#">EU AI Act Policy</a></li>
+              <li><a href="/privacy-policy">Privacy Policy</a></li>
+              <li><a href="/cookie-policy">Cookie Policy</a></li>
+              <li><a href="/terms">{t('ft.l1')}</a></li>
+              <li><a href="/eu-ai-act-policy">EU AI Act Policy</a></li>
             </ul>
           </div>
         </div>
@@ -58,9 +58,9 @@ export default function Footer() {
             <span>Startup Innovativa iscritta nella sezione speciale del Registro delle Imprese dal 25/02/2026</span>
           </div>
           <div className={styles.ftl}>
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-            <a href="#" aria-label="GitHub">GitHub</a>
-            <a href="#" aria-label="X (Twitter)">X</a>
+            <a href="https://www.linkedin.com/company/foveans" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+            <a href="https://github.com/foveans" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+            <a href="https://x.com/foveans" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
           </div>
         </div>
       </div>

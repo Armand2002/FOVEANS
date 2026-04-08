@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main>
+      <main className="home-main">
         <Hero />
         <div className="hr" />
         <Storia />
