@@ -14,9 +14,7 @@ export default function Nav() {
     <>
       <nav className={styles.nav}>
         <a href="/" className={styles.nlogo} aria-label="Foveans home">
-          <div className={styles.nm} aria-hidden="true">
-            <span /><span /><span /><span />
-          </div>
+          <div className={styles.nm} aria-hidden="true">F</div>
           Foveans
         </a>
 

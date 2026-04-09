@@ -12,9 +12,7 @@ export default function Footer() {
         <div className={styles.ftTop}>
           <div className={styles.fb}>
             <a href="/" className={styles.nlogo} aria-label="Foveans home">
-              <div className={styles.nm} aria-hidden="true">
-                <span /><span /><span /><span />
-              </div>
+              <div className={styles.nm} aria-hidden="true">F</div>
               Foveans
             </a>
             <p>{t('ft.tl')}</p>

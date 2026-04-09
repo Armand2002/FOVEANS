@@ -1,7 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#CC2719"/>
-  <rect x="8" y="8" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.9)"/>
-  <rect x="17" y="8" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.5)"/>
-  <rect x="8" y="17" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.5)"/>
-  <rect x="17" y="17" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.2)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Foveans favicon">
+  <rect width="64" height="64" rx="14" fill="#0B0606"/>
+  <text
+    x="50%"
+    y="50%"
+    fill="#CC2719"
+    font-family="Syne, 'Arial Black', Arial, sans-serif"
+    font-size="44"
+    font-weight="800"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >F</text>
 </svg>

@@ -27,19 +27,13 @@
   letter-spacing: -.025em;
 }
 .nm {
-  width: 26px; height: 26px;
-  background: var(--red);
-  border-radius: 5px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 4.5px;
+  color: var(--red);
+  font-family: var(--fh);
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 1;
   flex-shrink: 0;
 }
-.nm span { background: rgba(255,255,255,.9); border-radius: 1.5px; }
-.nm span:nth-child(2) { opacity: .5; }
-.nm span:nth-child(3) { opacity: .5; }
-.nm span:nth-child(4) { opacity: .2; }
 
 .fb p { font-size: 13px; color: var(--d2); line-height: 1.7; margin-top: 11px; max-width: 230px; }
 
