@@ -144,7 +144,7 @@ Versione: allineata al posizionamento company-first multi-dominio (AI, robotica,
 ### IT
 - Eyebrow: // 04 - Team
 - Headline: Due persone. Una visione. Nessuna scusa.
-- Intro: Foveans nasce dal lavoro tecnico e dalla visione di Armando Anselmi, che ha sviluppato ARIA-OP da solo nella fase iniziale. Valerio si e unito successivamente, rafforzando il team sul piano architetturale.
+- Intro: Foveans nasce dal lavoro tecnico e dalla visione di Armando, che ha sviluppato ARIA-OP da solo nella fase iniziale. Valerio si e unito successivamente, rafforzando il team sul piano architetturale.
 - Profili:
   - CEO & Co-founder
   - CTO & Co-founder
@@ -152,7 +152,7 @@ Versione: allineata al posizionamento company-first multi-dominio (AI, robotica,
 ### EN
 - Eyebrow: // 04 - Team
 - Headline: Two people. One vision. No excuses.
-- Intro: Foveans started from Armando Anselmi's technical execution and vision: he developed ARIA-OP solo in the initial phase. Valerio joined later, adding further engineering depth.
+- Intro: Foveans started from Armando's technical execution and vision: he developed ARIA-OP solo in the initial phase. Valerio joined later, adding further engineering depth.
 - Profiles:
   - CEO & Co-founder
   - CTO & Co-founder
